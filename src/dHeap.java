@@ -22,12 +22,14 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
     private int nelems; // number of elements
     private boolean isMaxHeap; // indicates whether heap is max or min
 
+    private final int DEFAULT_SIZE = 10;
+
     /**
      * Initializes a binary max heap with capacity = 10
      */
     @SuppressWarnings("unchecked")
     public dHeap() {
-        // TODO
+        this.heap = (T[]) new Comparable[DEFAULT_SIZE];
     }
 
     /**
@@ -37,7 +39,7 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      */
     @SuppressWarnings("unchecked")
     public dHeap(int heapSize) {
-        // TODO
+        this.heap = (T[]) new Comparable[heapSize];
     }
 
     /**
@@ -51,19 +53,33 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      */
     @SuppressWarnings("unchecked")
     public dHeap(int d, int heapSize, boolean isMaxHeap) throws IllegalArgumentException {
-        // TODO
+        if (d < 1) {
+            throw new IllegalArgumentException();
+        }
+
+        this.heap = (T[]) new Comparable[heapSize];
+        this.d = d;
+        this.isMaxHeap = isMaxHeap;
+        this.nelems = 0;
+
     }
 
     @Override
     public int size() {
-        // TODO
-        return 0;
+        return this.nelems;
     }
 
     @Override
     public T remove() throws NoSuchElementException {
-        // TODO
-        return null;
+        if (size() == 0) {
+            throw new NoSuchElementException();
+        }
+
+        T root = this.heap[0];
+        this.heap[0] = this.heap[size() - 1];
+        this.nelems--;
+        trickleDown(0);
+        return root;
     }
 
     @Override
@@ -93,7 +109,27 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
     }
 
     private void trickleDown(int index) {
-        // TODO
+        int indexTemp = index;
+        int firstChild = (this.d * index) + 1;
+        for (int i = 0; i < this.d && firstChild + i < size(); i++) {
+            if (isMaxHeap) { // if max heap then compares down
+                if (this.heap[firstChild + i].compareTo(this.heap[indexTemp]) > 0) {
+                    indexTemp = firstChild + i;
+                }
+            } else { // if min heap compares down
+                if (this.heap[firstChild + i].compareTo(this.heap[indexTemp]) < 0) {
+                    indexTemp = firstChild + i;
+                }
+            }
+        }
+
+        if (indexTemp != index) { // if temp is not index then swap
+            T temp = heap[index];
+            this.heap[index] = heap[indexTemp];
+            this.heap[indexTemp] = temp;
+        }
+
+        trickleDown(indexTemp);
     }
 
     @SuppressWarnings("unchecked")
