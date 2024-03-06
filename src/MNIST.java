@@ -58,8 +58,13 @@ public class MNIST {
          */
         @Override
         public int compareTo(DataHolder d) {
-            // TODO
-            return 0;
+            if (this.priority < d.priority) {
+                return -1;
+            } else if (this.priority > d.priority) {
+                return 1;
+            } else {
+                return 0;
+            }
         }
     }
 
@@ -70,8 +75,14 @@ public class MNIST {
      * @return the Euclidean distance between img1 and img2
      */
     public static float totalDist(float[] img1, float[] img2) throws IllegalArgumentException {
-        // TODO
-        return 0f;
+        if (img1.length != img2.length) {
+            throw new IllegalArgumentException();
+        }
+        float total = 0f;
+        for (int i = 0; i < img1.length; i++) {
+            total += (float) Math.pow((img1[i] - img2[i]),2);
+        }
+        return (float) Math.pow(total, 0.5);
     }
 
     /**
@@ -81,8 +92,32 @@ public class MNIST {
      * @return an array of DataHolders containing the k closest neighbors to image
      */
     public static DataHolder[] getClosestMatches(float[] image, int k) {
-        // TODO
-        return null;
+        MyPriorityQueue<DataHolder> priorityQueue = new MyPriorityQueue<>(image.length);
+
+        int elementsAdded = 0;
+
+        for (int i = 0; i < TRAIN_IMAGES.length; i++) {
+            float distance = totalDist(TRAIN_IMAGES[i], image);
+            DataHolder dataHolder = new DataHolder(TRAIN_LABELS[i], distance, TRAIN_IMAGES[i]);
+
+            if (elementsAdded <= k) {
+                priorityQueue.offer(dataHolder);
+                elementsAdded++;
+            } else {
+                if (priorityQueue.peek().priority > distance) {
+                    priorityQueue.poll();
+                    priorityQueue.offer(dataHolder);
+                }
+            }
+        }
+
+        DataHolder[] closestMatches = new DataHolder[k];
+
+        for (int i = 0; i < k; i++) {
+            closestMatches[i] = priorityQueue.poll();
+        }
+
+        return closestMatches;
     }
 
     /**
@@ -92,8 +127,21 @@ public class MNIST {
      * @param closestMatches the array of DataHolders containing the k closest matches
      */
     public static int predict(DataHolder[] closestMatches) {
-        // TODO
-        return 0;
+        int[] labels = new int[10];
+
+        for (DataHolder match : closestMatches) {
+            labels[match.label]++;
+        }
+
+        int prediction = -1;
+        int maxPrediction = 0;
+        for (int i = 0; i < labels.length; i++) {
+            if(labels[i] > maxPrediction) {
+                maxPrediction = labels[i];
+                prediction = i;
+            }
+        }
+        return prediction;
     }
 
     // you can ignore the rest of this file :)

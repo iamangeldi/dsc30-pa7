@@ -30,6 +30,9 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
     @SuppressWarnings("unchecked")
     public dHeap() {
         this.heap = (T[]) new Comparable[DEFAULT_SIZE];
+        this.d = 2;
+        this.isMaxHeap = true;
+        this.nelems = 0;
     }
 
     /**
@@ -40,6 +43,9 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
     @SuppressWarnings("unchecked")
     public dHeap(int heapSize) {
         this.heap = (T[]) new Comparable[heapSize];
+        this.d = 2;
+        this.isMaxHeap = true;
+        this.nelems = 0;
     }
 
     /**
@@ -84,28 +90,60 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
 
     @Override
     public void add(T item) throws NullPointerException {
-        // TODO
+        if (item == null) {
+            throw new NullPointerException();
+        }
+
+        if(size() == this.heap.length){
+            resize();
+        }
+
+        this.heap[size()] = item;
+        bubbleUp(size());
+        this.nelems++;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public void clear() {
-        // TODO
+        this.nelems = 0;
     }
 
     @Override
     public T element() throws NoSuchElementException {
-        // TODO
-        return null;
+        if (this.nelems == 0) {
+            throw new NoSuchElementException();
+        }
+        return this.heap[0];
     }
 
     private int parent(int index) {
-        // TODO
-        return 0;
+        return index - 1 / this.d;
     }
 
     private void bubbleUp(int index) {
-        // TODO
+        int parentIndex = parent(index);
+
+
+        if (isMaxHeap) { // Max heap
+            if (this.heap[parentIndex].compareTo(this.heap[index]) < 0) {
+
+                T temp = heap[index];
+                this.heap[index] = heap[parentIndex];
+                this.heap[parentIndex] = temp;
+
+                bubbleUp(parentIndex);
+            }
+        } else { // Min heap
+            if (this.heap[parentIndex].compareTo(this.heap[index]) > 0) {
+
+                T temp = heap[index];
+                this.heap[index] = heap[parentIndex];
+                this.heap[parentIndex] = temp;
+
+                bubbleUp(parentIndex);
+            }
+        }
     }
 
     private void trickleDown(int index) {
@@ -127,14 +165,19 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
             T temp = heap[index];
             this.heap[index] = heap[indexTemp];
             this.heap[indexTemp] = temp;
-        }
 
-        trickleDown(indexTemp);
+            trickleDown(indexTemp);
+        }
     }
 
     @SuppressWarnings("unchecked")
     private void resize() {
-        // TODO
+        int doubleLength = this.heap.length * 2;
+        T[] doubleHeap = (T[]) new Comparable[doubleLength];
+        for (int i = 0;  i < size(); i++) {
+            doubleHeap[i] = this.heap[i];
+        }
+        this.heap = doubleHeap;
     }
 
 }

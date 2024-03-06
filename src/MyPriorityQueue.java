@@ -1,13 +1,15 @@
 /*
- * Name: TODO
- * PID:  TODO
+ * Name: Imangali Amangeldi
+ * PID:  A17410460
  */
+
+import java.util.NoSuchElementException;
 
 /**
  * Priority Queue Implementation using dHeap.
  *
- * @author TODO
- * @since TODO
+ * @author Imangali Amangeldi
+ * @since 3/5/2024
  *
  * @param <T> the type of elements held in this collection
  */
@@ -22,7 +24,7 @@ public class MyPriorityQueue<T extends Comparable<? super T>> {
      * @param initialSize the given size
      */
     public MyPriorityQueue(int initialSize) {
-        // TODO
+        pQueue = new dHeap<>(4, initialSize, false);
     }
 
     /**
@@ -34,8 +36,11 @@ public class MyPriorityQueue<T extends Comparable<? super T>> {
      * @return returns true
      */
     public boolean offer(T element) throws NullPointerException {
-        // TODO
-        return false;
+        if (element == null) {
+            throw new NullPointerException();
+        }
+        this.pQueue.add(element);
+        return true;
     }
 
     /**
@@ -45,15 +50,20 @@ public class MyPriorityQueue<T extends Comparable<? super T>> {
      * @return The head of the queue (smallest element), or null if queue is empty.
      */
     public T poll() {
-        // TODO
-        return null;
+        T head;
+        try {
+            head = pQueue.remove();
+        } catch (NoSuchElementException exception) {
+            head = null;
+        }
+        return head;
     }
 
     /**
      * Clears the contents of the queue
      */
     public void clear() {
-        // TODO
+        pQueue.clear();
     }
 
     /**
@@ -63,16 +73,18 @@ public class MyPriorityQueue<T extends Comparable<? super T>> {
      * @return the head of the queue, null if the queue is empty
      */
     public T peek() {
-        // TODO
-        return null;
+        try {
+            return pQueue.element();
+        } catch (NoSuchElementException exception) {
+            return null;
+        }
     }
 
     /**
      * Return true is the queue is empty, false otherwise
      */
     public boolean isEmpty() {
-        // TODO
-        return false;
+        return pQueue.size() == 0;
     }
 
 }
