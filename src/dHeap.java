@@ -94,13 +94,13 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
             throw new NullPointerException();
         }
 
-        if(size() == this.heap.length){
+        if (size() == this.heap.length) {
             resize();
         }
 
-        this.heap[size()] = item;
-        bubbleUp(size());
         this.nelems++;
+        this.heap[size() - 1] = item;
+        bubbleUp(size() - 1);
     }
 
     @SuppressWarnings("unchecked")
@@ -118,28 +118,36 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
     }
 
     private int parent(int index) {
-        return index - 1 / this.d;
+        if (index != 0) {
+            return (index - 1) / this.d;
+        } else {
+            return 0;
+        }
     }
 
     private void bubbleUp(int index) {
         int parentIndex = parent(index);
 
+        if (index == 0) {
+            return;
+        }
 
         if (isMaxHeap) { // Max heap
             if (this.heap[parentIndex].compareTo(this.heap[index]) < 0) {
 
-                T temp = heap[index];
-                this.heap[index] = heap[parentIndex];
-                this.heap[parentIndex] = temp;
+                T temp = heap[parentIndex];
+                this.heap[parentIndex] = heap[index];
+                this.heap[index] = temp;
 
                 bubbleUp(parentIndex);
+                bubbleUp(index);
             }
         } else { // Min heap
             if (this.heap[parentIndex].compareTo(this.heap[index]) > 0) {
 
-                T temp = heap[index];
-                this.heap[index] = heap[parentIndex];
-                this.heap[parentIndex] = temp;
+                T temp = heap[parentIndex];
+                this.heap[parentIndex] = heap[index];
+                this.heap[index] = temp;
 
                 bubbleUp(parentIndex);
             }

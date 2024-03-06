@@ -21,11 +21,11 @@ class dHeapTester {
         maxHeapTestBinary.add(53);
         maxHeapTestBinary.add(64);
 
-        maxHeapTestD.add(20);
+        maxHeapTestD.add(64);
         maxHeapTestD.add(31);
         maxHeapTestD.add(42);
         maxHeapTestD.add(53);
-        maxHeapTestD.add(64);
+        maxHeapTestD.add(20);
 
         minHeapTestBinary.add(6);
         minHeapTestBinary.add(4);
@@ -59,7 +59,7 @@ class dHeapTester {
 
     @org.junit.jupiter.api.Test
     void remove() {
-        maxHeapTestD.remove();
+        assertSame(maxHeapTestD.remove(), 64);
         assertSame(maxHeapTestD.size(),4);
         maxHeapTestD.remove();
         maxHeapTestD.remove();
