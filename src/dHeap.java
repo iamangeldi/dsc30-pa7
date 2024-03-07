@@ -103,7 +103,7 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
      * Method to add an element to the heap
      *
      * @param item an item to be inserted
-     * @throws NoSuchElementException if the item is null
+     * @throws NullPointerException if the item is null
      */
     @Override
     public void add(T item) throws NullPointerException {
@@ -146,6 +146,7 @@ public class dHeap<T extends Comparable<? super T>> implements HeapInterface<T> 
     /**
      * Method to calculate the index of the parent
      *
+     * @param index the index of child
      * @return  the index of the parent
      */
     private int parent(int index) {
