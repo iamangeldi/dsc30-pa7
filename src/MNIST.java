@@ -52,6 +52,8 @@ public class MNIST {
         }
 
         /**
+         * Method to compare the two T elements.
+         *
          * @param d the other DataHolder that is being compared
          * @return an integer that determines whether priority is lower,
          *         greater, or equal to that of d
@@ -72,6 +74,7 @@ public class MNIST {
      * Calculate Euclidean distance between two vectors (1-D arrays)
      * @param img1 the first array
      * @param img2 the second array
+     * @throws IllegalArgumentException if the length of two images is not equal.
      * @return the Euclidean distance between img1 and img2
      */
     public static float totalDist(float[] img1, float[] img2) throws IllegalArgumentException {
@@ -116,6 +119,7 @@ public class MNIST {
      * You may assume k < n (amount of training data)
      *
      * @param closestMatches the array of DataHolders containing the k closest matches
+     * @return int for the most frequent label
      */
     public static int predict(DataHolder[] closestMatches) {
         int[] labels = new int[10];
@@ -145,7 +149,8 @@ public class MNIST {
      * @param imgArr the array to store images (dimension nx784)
      * @param lblArr the array to store labels (dimension n)
      */
-    public static void loadData(String imgFile, String lblFile, float[][] imgArr, short[] lblArr) throws IOException {
+    public static void loadData(String imgFile, String lblFile, float[][] imgArr,
+                                short[] lblArr) throws IOException {
 
         InputStream stream;
         File data = Paths.get("src", "data", imgFile).toFile();

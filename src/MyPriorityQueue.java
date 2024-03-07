@@ -15,6 +15,7 @@ import java.util.NoSuchElementException;
  */
 
 public class MyPriorityQueue<T extends Comparable<? super T>> {
+    public static final int INITIAL_D = 4;
 
     private dHeap<T> pQueue;
 
@@ -24,7 +25,7 @@ public class MyPriorityQueue<T extends Comparable<? super T>> {
      * @param initialSize the given size
      */
     public MyPriorityQueue(int initialSize) {
-        pQueue = new dHeap<>(4, initialSize, false);
+        pQueue = new dHeap<>(INITIAL_D, initialSize, false);
     }
 
     /**
@@ -82,6 +83,8 @@ public class MyPriorityQueue<T extends Comparable<? super T>> {
 
     /**
      * Return true is the queue is empty, false otherwise
+     *
+     * @return boolean if true or not
      */
     public boolean isEmpty() {
         return pQueue.size() == 0;
