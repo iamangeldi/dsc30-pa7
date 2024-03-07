@@ -1,6 +1,6 @@
 /*
- * Name: TODO
- * PID:  TODO
+ * Name: Imangali Amangeldi
+ * PID:  A17410460
  */
 
 import java.io.*;
@@ -10,8 +10,8 @@ import java.util.zip.GZIPInputStream;
 /**
  * Implementation of KNN using MyPriorityQueue on the MNIST dataset
  *
- * @author TODO
- * @since TODO
+ * @author Imangali Amangeldi
+ * @since 3/6/2024
  */
 
 public class MNIST {

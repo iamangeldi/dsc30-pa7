@@ -1,5 +1,5 @@
 /*
- * Name: TODO
+ * Name: Imangali Amangeldi
  * PID:  TODO
  */
 
