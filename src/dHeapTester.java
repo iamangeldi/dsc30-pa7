@@ -61,10 +61,10 @@ class dHeapTester {
     void remove() {
         assertSame(maxHeapTestD.remove(), 64);
         assertSame(maxHeapTestD.size(),4);
-        maxHeapTestD.remove();
-        maxHeapTestD.remove();
-        maxHeapTestD.remove();
-        maxHeapTestD.remove();
+        assertSame(maxHeapTestD.remove(), 53);
+        assertSame(maxHeapTestD.remove(), 42);
+        assertSame(maxHeapTestD.remove(), 31);
+        assertSame(maxHeapTestD.remove(), 20);
         assertThrows(NoSuchElementException.class, () -> {
             maxHeapTestD.remove();
         });

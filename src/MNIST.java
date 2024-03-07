@@ -82,7 +82,7 @@ public class MNIST {
         for (int i = 0; i < img1.length; i++) {
             total += (float) Math.pow((img1[i] - img2[i]),2);
         }
-        return (float) Math.pow(total, 0.5);
+        return (float) Math.sqrt(total);
     }
 
     /**
@@ -94,21 +94,12 @@ public class MNIST {
     public static DataHolder[] getClosestMatches(float[] image, int k) {
         MyPriorityQueue<DataHolder> priorityQueue = new MyPriorityQueue<>(image.length);
 
-        int elementsAdded = 0;
 
         for (int i = 0; i < TRAIN_IMAGES.length; i++) {
             float distance = totalDist(TRAIN_IMAGES[i], image);
             DataHolder dataHolder = new DataHolder(TRAIN_LABELS[i], distance, TRAIN_IMAGES[i]);
 
-            if (elementsAdded <= k) {
-                priorityQueue.offer(dataHolder);
-                elementsAdded++;
-            } else {
-                if (priorityQueue.peek().priority > distance) {
-                    priorityQueue.poll();
-                    priorityQueue.offer(dataHolder);
-                }
-            }
+            priorityQueue.offer(dataHolder);
         }
 
         DataHolder[] closestMatches = new DataHolder[k];
